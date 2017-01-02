@@ -1,0 +1,138 @@
+/*Author:xtt*/
+@charset 'utf-8';
+body{
+    margin:0;
+    padding:0;
+    font-family: 'Microsoft YaHei';
+}
+div, dl, dt, dd, ul, ol, li,
+h1, h2, h3, h4, h5, h6, pre, code,
+form, fieldset, legend, input, button,
+textarea, p, blockquote, th, td ,a{margin: 0;padding: 0;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+fieldset, img { border: 0;}
+/* remember to define focus styles! */
+:focus {outline: 0;}
+address, caption, cite, code, dfn,em, strong, th, var, optgroup {font-style: normal;font-weight: normal;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+abbr, acronym {border: 0;font-variant: normal;} 
+input, button, textarea,select, optgroup, option {font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;}
+code, kbd, samp, tt {font-size: 100%;}
+/*@purpose To enable resizing for IE */
+/*@branch For IE6-Win, IE7-Win */
+input, button, textarea, select {*font-size: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+ol, ul ,li{list-style: none;}
+/* tables still need 'cellspacing="0"' in the markup */
+table { border-collapse: collapse; border-spacing: 0;}
+caption, th {text-align: left;}
+sup, sub {font-size: 100%;vertical-align: baseline;}
+/* remember to highlight anchors and inserts somehow! */
+a:link, a:visited, a:active{text-decoration: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}
+/*娓呴櫎ios鑷甫鏍峰紡*/
+input[type=button],input[type=submit]{
+	-webkit-appearance:none;
+	outline:none
+}
+::-webkit-input-placeholder{color:#999;}
+input[type="text"],input[type="password"]{-webkit-appearance:none;appearance:none;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);border-radius:0;}
+textarea{
+	resize: none;
+}
+.sx-content-main{
+	overflow: hidden;
+	background: white;
+	padding: 20px 0 0 20px;
+}
+.sx-menu-first,.sx-menu-second,.sx-menu-third{
+	float: left;
+	height: 598px;
+	border: 1px solid #e3e3e3; 
+}
+.sx-menu-first{
+	width: 240px;
+}   ��   
+.sx-menu-second{
+	width: 579px;
+	border-left: none;
+}
+.sx-menu-third{
+	width: 239px;
+	border-left: none;
+}
+.sx-menu-lists{
+	width: auto;
+	height: 595px;
+	padding: 20px 20px 0 20px;
+	overflow-y: auto;
+}
+.sx-menu-lists>li{
+	width: 100%;
+	line-height: 32px;
+	font-size: 0;
+	overflow: hidden;
+	padding: 0 0 0 10px;
+	margin-bottom: 8px;
+	border-radius: 1px;
+}
+.sx-lists-name{
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 14px;
+	color: #666;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.sx-menu-lists1>li .sx-lists-name{
+	max-width: 130px;
+}
+.sx-menu-lists>li .sx-lists-remarks{
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 14px;
+	color: #337ab7;
+	text-decoration: underline;
+	margin-left: 12px;
+}
+.sx-menu-lists1>li:hover{
+	background: #0259ab;
+}
+.sx-menu-lists1>li:hover .sx-lists-name{
+	color: white;
+}
+.sx-menu-lists1>li:hover .sx-lists-remarks{
+	color: white;
+}
+.sx-menu-lists2>li:hover{
+	background: #0259ab;
+}
+.sx-menu-lists2>li:hover .sx-lists-name{
+	color: white;
+}
+.sx-menu-lists2>li:hover .sx-lists-remarks{
+	color: white;
+}
+.sx-menu-lists2>li .sx-lists-name{
+	max-width: 460px;
+}
+.sx-menu-lists3>li .sx-lists-name{
+	max-width: 130px;
+}
+.sx-menu-lists1 .sx-lists1-active{
+	background: #0259ab;
+}
+.sx-menu-lists1 .sx-lists1-active .sx-lists-name{
+	color: white;
+}
+.sx-menu-lists1 .sx-lists1-active .sx-lists-remarks{
+	color: white;
+}
+.sx-menu-lists2 .sx-lists2-active{
+	background: #0259ab;
+}
+
+
+
+
+
+

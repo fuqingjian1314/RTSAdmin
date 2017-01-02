@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjg.rts.dao.ChargeRecordDao">
+	<resultMap id="rtsChargeRecordMap" type="com.sjg.rts.entity.ChargeRecordVO">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="charge_score" property="chargeScore" />
+		<result column="create_time" property="createTime" />
+		<result column="creater_id" property="createrId" />
+		<result column="creater_name" property="createrName" />
+	</resultMap>
+
+	<select id="findAllInfosCount" parameterType="com.sjg.rts.entity.ChargeRecordVO"
+		resultType="int">
+		select count(*)
+		from rts_charge_record
+		where 1=1
+		<if test="chargeScore != null and chargeScore != ''"> and charge_score = #{chargeScore}</if>
+	</select>
+
+	<insert id="save" parameterType="com.sjg.rts.entity.ChargeRecordVO">
+		INSERT INTO rts_charge_record
+		(id,user_id,charge_score,create_time,creater_id,creater_name)
+		values
+		(#{id,jdbcType=BIGINT},#{userId,jdbcType=BIGINT},#{chargeScore,jdbcType=DECIMAL},#{createTime,jdbcType=TIMESTAMP},#{createrId,jdbcType=BIGINT},#{createrName,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="update" parameterType="com.sjg.rts.entity.ChargeRecordVO">
+		update rts_charge_record
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null"> id = #{id},</if>
+			<if test="userId != null"> user_id = #{userId},</if>
+			<if test="chargeScore != null"> charge_score = #{chargeScore},</if>
+			<if test="createTime != null"> create_time = #{createTime},</if>
+			<if test="createrId != null"> creater_id = #{createrId},</if>
+			<if test="createrName != null"> creater_name = #{createrName},</if>
+		</trim>
+		where
+		<trim prefix="" suffixOverrides="AND">
+			<if test="id != null">id = #{id} AND </if>
+		</trim>
+	</update>
+
+	<delete id="delete" parameterType="com.sjg.rts.entity.ChargeRecordVO">
+		delete from rts_charge_record where id in
+		<foreach collection="array" item="oneId" open="(" close=")"
+			separator=",">
+			#{oneId}
+		</foreach>
+	</delete>
+
+	<select id="getRtsChargeRecordVOById" parameterType="string"
+		resultMap="rtsChargeRecordMap">
+		select id,user_id,charge_score,create_time,creater_id,creater_name
+		from rts_charge_record where id = #{value}
+	</select>
+	
+	<update id="addChargeScoreToRestScore" parameterType="com.sjg.rts.entity.ChargeRecordVO">
+		update sys_user set rest_score=IFNULL(rest_score,0)+#{chargeScore} 
+			where id = #{userId}
+	</update>
+	
+	<select id="findAllInfos" parameterType="com.sjg.rts.entity.ChargeRecordVO"
+		resultType="java.util.Map">
+		select ifnull(charge_score,0) charge_score,DATE_FORMAT(create_time,'%Y-%c-%d %H:%i:%s') AS create_time 
+			from rts_charge_record
+		where 1=1
+		<if test="id != null and id != ''"> and id = #{id}</if>
+		<if test="userId != null and userId != ''"> and user_id = #{userId}</if>
+		<if test="createrId != null and createrId != ''"> and creater_id = #{createrId}</if>
+		order by create_time desc limit 0,100
+	</select>
+</mapper>

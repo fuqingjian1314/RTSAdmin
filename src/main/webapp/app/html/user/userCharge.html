@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-views,
+			.mui-view,
+			.mui-pages,
+			.mui-page,
+			.mui-page-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+			}
+			.mui-pages {
+				top: 46px;
+				height: auto;
+			}
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			.mui-page.mui-transitioning {
+				-webkit-transition: -webkit-transform 200ms ease;
+				transition: transform 200ms ease;
+			}
+			.mui-page-left {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+			.mui-ios .mui-page-left {
+				-webkit-transform: translate3d(-20%, 0, 0);
+				transform: translate3d(-20%, 0, 0);
+			}
+			.mui-navbar {
+				position: fixed;
+				right: 0;
+				left: 0;
+				z-index: 10;
+				height: 44px;
+				background-color: #f7f7f8;
+			}
+			.mui-navbar .mui-bar {
+				position: absolute;
+				background: transparent;
+				text-align: center;
+			}
+			.mui-android .mui-navbar-inner.mui-navbar-left {
+				opacity: 0;
+			}
+			.mui-ios .mui-navbar-left .mui-left,
+			.mui-ios .mui-navbar-left .mui-center,
+			.mui-ios .mui-navbar-left .mui-right {
+				opacity: 0;
+			}
+			.mui-navbar .mui-btn-nav {
+				-webkit-transition: none;
+				transition: none;
+				-webkit-transition-duration: .0s;
+				transition-duration: .0s;
+			}
+			.mui-navbar .mui-bar .mui-title {
+				display: inline-block;
+				position: static;
+				width: auto;
+			}
+			.mui-page-shadow {
+				position: absolute;
+				right: 100%;
+				top: 0;
+				width: 16px;
+				height: 100%;
+				z-index: -1;
+				content: '';
+			}
+			.mui-page-shadow {
+				background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+				background: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+			}
+			.mui-navbar-inner.mui-transitioning,
+			.mui-navbar-inner .mui-transitioning {
+				-webkit-transition: opacity 200ms ease, -webkit-transform 200ms ease;
+				transition: opacity 200ms ease, transform 200ms ease;
+			}
+			.mui-page {
+				display: none;
+			}
+			.mui-pages .mui-page {
+				display: block;
+			}
+			.mui-page .mui-table-view:first-child {
+				margin-top: 15px;
+			}
+			.mui-page .mui-table-view:last-child {
+				margin-bottom: 30px;
+			}
+			.mui-table-view {
+				margin-top: 20px;
+			}
+			.mui-table-view:after {
+				height: 0;
+			}
+			.mui-table-view span.mui-pull-right {
+				color: #999;
+			}
+			.mui-table-view-divider {
+				background-color: #efeff4;
+				font-size: 14px;
+			}
+			.mui-table-view-divider:before,
+			.mui-table-view-divider:after {
+				height: 0;
+			}
+			.mui-content-padded {
+				margin: 10px 0px;
+			}
+			.mui-locker {
+				margin: 35px auto;
+				display: none;
+			}
+		</style>
+		<!--<link rel="stylesheet" type="text/css" href="./css/feedback-page.css" />-->
+	</head>
+
+	<body>
+		<!--页面主结构开始-->
+		<div id="app" class="mui-views">
+			<div class="mui-view">
+				<div class="mui-navbar">
+				</div>
+				<div class="mui-pages">
+				</div>
+			</div>
+		</div>
+		<!--页面主结构结束-->
+		<!--单页面开始-->
+		<div id="setting" class="mui-page">
+			<!--页面标题栏开始-->
+			<div class="mui-navbar-inner mui-bar mui-bar-nav">
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title">用户充值</h1>
+			</div>
+			<!--页面标题栏结束-->
+			<!--页面主内容区开始-->
+			<div class="mui-page-content">
+				<form id='login-form' class="mui-input-group">
+					<input id='id' type="hidden" class="mui-input-clear mui-input">
+					<div class="mui-input-row">
+						<label>用户名</label>
+						<input disabled="true" id='name' type="text" class="mui-input-clear mui-input">
+					</div>
+					<div class="mui-input-row">
+						<label>剩余分</label>
+						<input disabled="true" id='restscore' type="text" class="mui-input-clear mui-input">
+					</div>
+					<div class="mui-input-row">
+						<label>本次充值</label>
+						<input id='chargeScore' type="text" class="mui-input-clear mui-input" placeholder="请输入本次充值分数">
+						<!--<div class="mui-numbox" data-numbox-min='1' data-numbox-max='50000'>
+							<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+								<input id="chargeScore" class="mui-input-numbox" type="number" value="5" />
+							<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+						</div>-->
+					</div>
+				</form>
+				
+				<div class="mui-content-padded" align="center">
+					<button id='charge' class="mui-btn mui-btn-primary" style="width: 30%;">充值</button>
+					<button id='confirmBtn' class="mui-btn mui-btn-mini" style="background: #EC971F;width: 30%;">下分</button>
+				</div>
+			</div>
+			<!--页面主内容区结束-->
+		</div>
+
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/mui.view.js "></script>
+	<script src='../../js/jquery-1.10.2.min.js'></script>
+	<script>
+		var chargeUserInfo;
+		var idBox = document.getElementById("id");
+		var nameBox = document.getElementById("name");
+		var restscoreBox = document.getElementById("restscore");
+		var chargeScoreBox = document.getElementById("chargeScore");
+		mui.init();
+		 //初始化单页view
+		var viewApi = mui('#app').view({
+			defaultPage: '#setting'
+		});
+		 //********************
+		var view = viewApi.view;
+		(function($) {
+			//处理view的后退与webview后退
+			var oldBack = $.back;
+			$.back = function() {
+				if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+					viewApi.back();
+				} else { //执行webview后退
+					oldBack();
+				}
+			};
+			//监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)
+			//第一个参数为事件名称，第二个参数为事件回调，其中e.detail.page为当前页面的html对象
+			view.addEventListener('pageBeforeShow', function(e) {
+				//				console.log(e.detail.page.id + ' beforeShow');
+			});
+			view.addEventListener('pageShow', function(e) {
+				//进入手执设定界面时
+				if (e.detail.page.id == 'lock') {
+					var settings = app.getSettings();
+					/*if (!settings.autoLogin) {
+						plus.nativeUI.toast('当前没有启用 “自动登录”，需要在登录时启用 "自动登录"，设定的手势锁屏才会升效。');
+					}*/
+					var lockStateButton = document.getElementById("lockState");
+					var locker = document.querySelector('.mui-locker');
+					lockStateButton.classList[settings.gestures ? 'add' : 'remove']('mui-active')
+					locker.style.display = settings.gestures ? 'block' : 'none';
+				}
+				//				console.log(e.detail.page.id + ' show');
+			});
+			view.addEventListener('pageBeforeBack', function(e) {
+				//				console.log(e.detail.page.id + ' beforeBack');
+			});
+			view.addEventListener('pageBack', function(e) {
+				//				console.log(e.detail.page.id + ' back');
+			});
+			
+			//获取上个页面传递的参数
+			/* 只能在手机上运行实现
+			 * var paras = plus.webview.currentWebview();
+			 * alert(paras.id);*/
+			chargeUserInfo = JSON.parse(localStorage.getItem('$chargeUserInfo') || '[]');
+			idBox.value=chargeUserInfo.id;
+			nameBox.value=chargeUserInfo.name;
+			restscoreBox.value=chargeUserInfo.restscore;
+		})(mui);
+		
+		/**
+		 * 充值点击事件
+		 */
+		document.getElementById("charge").addEventListener('tap', function() {
+			var chargeScore = chargeScoreBox.value;
+			var reg = new RegExp("^[1-9][0-9]*$");//正整数
+			if (chargeScore.length < 1) {
+				mui.toast('请输入本次充值分数');
+				return;
+			} else{
+				if(!reg.test(chargeScore)){
+					mui.toast('请输入正整数');
+					return;
+				}
+				if(chargeScore > 5000){
+					mui.toast('输入分数值过大，请核对后再充值。');
+					return;
+				}
+			}
+			mui.post(localStorage.getItem("serverPath")+"/appClient/saveCharge.shtml",{
+				userId: idBox.value,
+				chargeScore: chargeScoreBox.value
+			},function(data){
+				if('success' == data.result){
+					restscoreBox.value = data.restScore;
+					chargeScoreBox.value = '';
+					mui.toast(data.info);
+				} else{
+					mui.toast(data.info);
+				}
+			},'json');
+			/*
+			$.ajax({
+				type:"post",
+				url:serverPath+"/appClient/saveCharge.shtml",
+				async:true,
+				data:{
+					userId: idBox.value,
+					chargeScore: chargeScoreBox.value
+				},
+				success:function(data){
+					if('success' == data.result){
+						restscoreBox.value = data.restScore;
+						chargeScoreBox.value = '';
+						mui.toast(data.info);
+					} else{
+						mui.toast(data.info);
+					}
+				}
+			});
+			*/
+		});
+		
+		/**
+		 * 下分点击事件
+		 */
+		document.getElementById("confirmBtn").addEventListener('tap', function() {
+			var btnArray = ['否', '是'];
+			mui.confirm('是否确认执行下分操作？', '下分', btnArray, function(e) {
+				if (e.index == 1) {
+					mui.post(localStorage.getItem("serverPath")+"/appClient/zeroClean.shtml",{
+						id: idBox.value
+					},function(data){
+						if('success' == data.result){
+							restscoreBox.value = data.restScore;
+							chargeScoreBox.value = '';
+							mui.toast(data.info);
+						} else{
+							mui.toast(data.info);
+						}
+					},'json');
+					/*
+					$.ajax({
+						type:"post",
+						url:serverPath+"/appClient/zeroClean.shtml",
+						async:true,
+						data:{
+							id: idBox.value
+						},
+						success:function(data){
+							if('success' == data.result){
+								restscoreBox.value = data.restScore;
+								chargeScoreBox.value = '';
+								mui.toast(data.info);
+							} else{
+								mui.toast(data.info);
+							}
+						}
+					});
+					*/
+				} else {
+					//alert('取消！');
+				}
+			})
+		});
+	</script>
+
+</html>

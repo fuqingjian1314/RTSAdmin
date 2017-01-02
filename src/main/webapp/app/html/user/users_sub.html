@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>用户信息列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=0,maximum-scale=0,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--搜索框-->
+				<div class="mui-input-row mui-search">
+					<input id="search" type="search" onchange="search()" class="mui-input-clear" placeholder="请输入用户名">
+				</div>
+				<!--数据列表-->
+				<ul id="chargeList" class="mui-table-view mui-table-view-chevron">
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src='../../js/jquery-1.10.2.min.js'></script>
+		<script>
+			var searchBox = document.getElementById("search");
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			
+			var users;
+			
+			/**
+			 * 将从服务器获取到的新一批用户增加到页面显示
+			 */
+			function addUsertoUL(){
+				var table = document.body.querySelector('.mui-table-view');
+				for (var i = 0; i < users.length; i++) {
+					count = i;
+					if(++count > users.length){
+						break;
+					}
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell mui-collapse';
+					var restscoreStyle = "class='mui-badge mui-badge-yellow'";
+			        if(users[i].restscore>500){
+			        	restscoreStyle = "class='mui-badge mui-badge-green'";
+			        } else if(users[i].restscore<100){
+			        	restscoreStyle = "class='mui-badge mui-badge-red'";
+			        }
+			        li.innerHTML="<a href='#' class='mui-navigate-right'><span "+restscoreStyle+">"+users[i].restscore+"</span>"+users[i].name+"</a>"
+				        +"<ul class='mui-table-view mui-table-view-chevron'>"
+							+"<li class='mui-table-view-cell'>"
+								+"<a class='mui-navigate-right' href='#' onclick='charge("+users[i].id+",\""+users[i].name+"\","+users[i].restscore+")'>充值</a>"
+							+"</li>"
+							+"<li class='mui-table-view-cell'>"
+								+"<a class='mui-navigate-right' href='#' onclick='chargerecord("+users[i].id+",\""+users[i].name+"\","+users[i].restscore+")'>充值记录</a>"
+							+"</li>"
+					+"</ul>";
+					table.appendChild(li);
+				}
+			}
+			
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			var times = 0;//上拉次数，每拉一次加1
+			var pageSize = 20;//每次下拉获取的数据条数
+			function pullupRefresh() {
+				times++;var count = 0;//此参数用来判断已处理获取数据的最后一条
+				setTimeout(function() {
+					mui.post(localStorage.getItem("serverPath")+"/appClient/queryUserPager.shtml",{
+						name: searchBox.value,
+						offSet: (times-1)*pageSize,
+						pageSize: pageSize
+					},function(data){
+						users = data.items;
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > users.length)); //参数为true代表没有更多数据了。
+						addUsertoUL();
+					},'json');
+					/*
+					$.ajax({
+						type:"post",
+						url:serverPath+"/appClient/queryUserPager.shtml",
+						async:true,
+						data: {
+							name: searchBox.value,
+							offSet: (times-1)*pageSize,
+							pageSize: pageSize
+						},
+						success:function(data){
+							users = data.items;
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > users.length)); //参数为true代表没有更多数据了。
+							addUsertoUL();
+						}
+					});
+					*/
+				}, 0);
+			}
+			
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				var count = 0;times=1;//重置上拉次数
+				setTimeout(function() {
+					mui.post(localStorage.getItem("serverPath")+"/appClient/queryUserPager.shtml",{
+						name: searchBox.value,
+						offSet: 0,
+						pageSize: pageSize
+					},function(data){
+						$('#chargeList').empty();
+						users = data.items;
+						addUsertoUL();
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+						//调用上拉加载的重置函数
+						mui('#pullrefresh').pullRefresh().refresh(true);
+					},'json');
+					/*
+					$.ajax({
+						type:"post",
+						url:serverPath+"/appClient/queryUserPager.shtml",
+						async:true,
+						data: {
+							name: searchBox.value,
+							offSet: 0,
+							pageSize: pageSize
+						},
+						success:function(data){
+							$('#chargeList').empty();
+							users = data.items;
+							addUsertoUL();
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+							//调用上拉加载的重置函数
+							mui('#pullrefresh').pullRefresh().refresh(true);
+						}
+					});
+					*/
+				}, 0);
+			}
+			
+			/**
+			 * 页面初始化时执行
+			 */
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 0);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+			
+			/**
+			 * 加分按钮点击
+			 */
+			function charge(id,name,restscore){
+				var chargeUserInfo = {
+					id: id,
+					name: name,
+					restscore: restscore
+				};
+				localStorage.setItem('$chargeUserInfo', JSON.stringify(chargeUserInfo));
+				
+				mui.openWindow({
+					url: 'userCharge.html',
+					id: 'userCharge',
+					extras:{
+						id: id,
+						name: name,
+						restscore: restscore
+					},
+					show: {
+						aniShow: 'pop-in'
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+			}
+			/**
+			 * 查看加分记录按钮点击
+			 */
+			function chargerecord(id,name,restscore){
+				var chargeUserInfo = {
+					id: id,
+					name: name,
+					restscore: restscore
+				};
+				localStorage.setItem('$chargeUserInfo', JSON.stringify(chargeUserInfo));
+				
+				mui.openWindow({
+					url: 'userChargeList_main.html',
+					id: 'userChargeList_main',
+					extras:{
+						id: id,
+						name: name,
+						restscore: restscore
+					},
+					show: {
+						aniShow: 'pop-in'
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+			}
+			
+			function search(){
+				// 输入框填写信息后下拉刷新即可实现按条件查询
+				pulldownRefresh();
+			}
+		</script>
+	</body>
+
+</html>

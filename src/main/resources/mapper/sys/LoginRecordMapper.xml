@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjg.sys.dao.LoginRecordMapper">
+	<resultMap id="BaseResultMap" type="com.sjg.sys.entity.LoginRecord">
+		<result column="lr_id" jdbcType="BIGINT" property="lrId" />
+		<result column="lr_login_name" jdbcType="VARCHAR" property="lrLoginName" />
+		<result column="lr_login_time" jdbcType="TIMESTAMP" property="lrLoginTime" />
+		<result column="lr_login_ip" jdbcType="VARCHAR" property="lrLoginIp" />
+		<result column="lr_login_status" jdbcType="VARCHAR" property="lrLoginStatus" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+	  lr_id,lr_login_name,date_format(lr_login_time,'%Y-%m-%d %T') lr_login_time,lr_login_ip,lr_login_status
+	</sql>
+	<insert id="insert" parameterType="com.sjg.sys.entity.LoginRecord" useGeneratedKeys="true" keyProperty="gd_id">
+		insert into sys_login_record
+		(lr_id, lr_login_name, lr_login_time,
+		lr_login_ip,
+		lr_login_status)
+		values (#{lrId,jdbcType=BIGINT}, #{lrLoginName,jdbcType=VARCHAR},
+		#{lrLoginTime,jdbcType=TIMESTAMP},
+		#{lrLoginIp,jdbcType=VARCHAR}, #{
+		lrLoginStatus,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.sjg.sys.entity.LoginRecord">
+		insert into sys_login_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="lrId != null">
+				lr_id,
+			</if>
+			<if test="lrLoginName != null">
+				lr_login_name,
+			</if>
+			<if test="lrLoginTime != null">
+				lr_login_time,
+			</if>
+			<if test="lrLoginIp != null">
+				lr_login_ip,
+			</if>
+			<if test="lrLoginStatus != null">
+				lr_login_status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="lrId != null">
+				#{lrId,jdbcType=BIGINT},
+			</if>
+			<if test="lrLoginName != null">
+				#{lrLoginName,jdbcType=VARCHAR},
+			</if>
+			<if test="lrLoginTime != null">
+				#{lrLoginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lrLoginIp != null">
+				#{lrLoginIp,jdbcType=VARCHAR},
+			</if>
+			<if test="lrLoginStatus != null">
+				#{lrLoginStatus,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 分页查询访问日志 -->
+	<select id="queryLoginRecordList" resultMap="BaseResultMap" parameterType="map">
+		select 
+    	<include refid="Base_Column_List" />
+    	from sys_login_record where 1 = 1 
+    	<if test="lrLoginName != null and lrLoginName != '' " >
+	       and lr_login_name like concat('%',#{lrLoginName,jdbcType=VARCHAR},'%') 
+	     </if>
+    	order by lr_login_time desc
+    	limit ${offSet},${pageSize} 
+	</select>
+	<!-- 获取访问记录的总条数 -->
+	<select id="queryCountLoginRecord" resultType="java.lang.Long" parameterType="map">
+		select count(*) from sys_login_record where 1 = 1 
+    	<if test="lrLoginName != null and lrLoginName != '' " >
+	       and lr_login_name like concat('%',#{lrLoginName,jdbcType=VARCHAR},'%') 
+	    </if>
+	</select>
+</mapper>

@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjg.sys.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.sjg.sys.entity.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="locked" property="locked" jdbcType="TINYINT" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="login_pwd" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creater_id" property="createrId" jdbcType="BIGINT" />
+    <result column="creater_name" property="createrName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="updater_id" property="updaterId" jdbcType="BIGINT" />
+    <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="creater_organization" property="createrOrganization" jdbcType="VARCHAR" />
+    <result column="updater_organization" property="updaterOrganization" jdbcType="VARCHAR" />
+    <result column="position_level" property="positionLevel" jdbcType="BIGINT" />
+    <result column="avator" property="avator" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="seat_number" property="seatNumber" jdbcType="VARCHAR" />
+    <result column="att_number" property="attNumber" jdbcType="VARCHAR" />
+    <result column="vip_number" property="vipNumber" jdbcType="BIGINT" />
+    <result column="is_pattern" property="isPattern" jdbcType="BIGINT" />
+    <result column="customer_number" property="customerNumber" jdbcType="BIGINT" />
+    <result column="work_area" property="workArea" jdbcType="BIGINT" />
+    <result column="express_pwd" property="expressPwd" jdbcType="VARCHAR" />
+    <result column="integral" property="integral" jdbcType="INTEGER" />
+    <result column="integral_level" property="integralLevel" jdbcType="VARCHAR" />
+    <result column="rest_score" property="restscore" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="pageResultMap"  type="com.sjg.sys.entity.vo.UserVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="locked" property="locked" jdbcType="TINYINT" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="login_pwd" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="name1" property="name1" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creater_id" property="createrId" jdbcType="BIGINT" />
+    <result column="creater_name" property="createrName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="updater_id" property="updaterId" jdbcType="BIGINT" />
+    <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="creater_organization" property="createrOrganization" jdbcType="VARCHAR" />
+    <result column="updater_organization" property="updaterOrganization" jdbcType="VARCHAR" />
+    <result column="position_level" property="positionLevel" jdbcType="BIGINT" />
+    <result column="avator" property="avator" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="seat_number" property="seatNumber" jdbcType="VARCHAR" />
+    <result column="att_number" property="attNumber" jdbcType="VARCHAR" />
+    <result column="vip_number" property="vipNumber" jdbcType="BIGINT" />
+    <result column="is_pattern" property="isPattern" jdbcType="BIGINT" />
+    <result column="customer_number" property="customerNumber" jdbcType="BIGINT" />
+    <result column="work_area" property="workArea" jdbcType="BIGINT" />
+    <result column="express_pwd" property="expressPwd" jdbcType="VARCHAR" />
+    <result column="integral" property="integral" jdbcType="INTEGER" />
+    <result column="integral_level" property="integralLevel" jdbcType="VARCHAR" />
+    <result column="rest_score" property="restscore" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, locked, login_name, login_pwd, name, phone, pinyin, org_id, create_time, creater_id, 
+    creater_name, update_time, updater_id, updater_name, gender, sex, creater_organization, 
+    updater_organization, position_level, avator, description, seat_number, att_number, 
+    vip_number, is_pattern, customer_number, work_area, express_pwd, integral, integral_level,rest_score 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectUsersPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user where 1=1
+    <if test="user!=null and user.name != null and user.name != ''" >
+        and name like concat('%',#{user.name,jdbcType=VARCHAR},'%') 
+    </if>
+    <if test="user!=null and user.loginName != null and user.loginName != ''" >
+        and login_name like concat('%',#{user.loginName,jdbcType=VARCHAR},'%') 
+    </if>
+    ORDER BY create_time DESC
+    limit ${offSet},${pageSize}
+  </select>
+  
+  <select id="selectUsersPageCount" resultType="java.lang.Long">
+    select 
+    count(*)
+    from sys_user where 1=1
+    <if test="user!=null and user.name != null and user.name != ''" >
+        and name like concat('%',#{user.name,jdbcType=VARCHAR},'%') 
+    </if>
+    <if test="user!=null and user.loginName != null and user.loginName != ''" >
+        and login_name like concat('%',#{user.loginName,jdbcType=VARCHAR},'%') 
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sjg.sys.entity.User" >
+    insert into sys_user (id, locked, login_name, 
+      login_pwd, name, phone, 
+      pinyin, org_id, create_time, 
+      creater_id, creater_name, update_time, 
+      updater_id, updater_name, gender, 
+      sex, creater_organization, updater_organization, 
+      position_level, avator, description, 
+      seat_number, att_number, vip_number, 
+      is_pattern, customer_number, work_area, 
+      express_pwd, integral, integral_level, rest_score 
+      )
+    values (#{id,jdbcType=BIGINT}, #{locked,jdbcType=TINYINT}, #{loginName,jdbcType=VARCHAR}, 
+      #{loginPwd,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{pinyin,jdbcType=VARCHAR}, #{orgId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createrId,jdbcType=BIGINT}, #{createrName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updaterId,jdbcType=BIGINT}, #{updaterName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{createrOrganization,jdbcType=VARCHAR}, #{updaterOrganization,jdbcType=VARCHAR}, 
+      #{positionLevel,jdbcType=BIGINT}, #{avator,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{seatNumber,jdbcType=VARCHAR}, #{attNumber,jdbcType=VARCHAR}, #{vipNumber,jdbcType=BIGINT}, 
+      #{isPattern,jdbcType=BIGINT}, #{customerNumber,jdbcType=BIGINT}, #{workArea,jdbcType=BIGINT}, 
+      #{expressPwd,jdbcType=VARCHAR}, #{integral,jdbcType=INTEGER}, #{integralLevel,jdbcType=VARCHAR}, #{restscore,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sjg.sys.entity.User" >
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="locked != null" >
+        locked,
+      </if>
+      <if test="loginName != null" >
+        login_name,
+      </if>
+      <if test="loginPwd != null" >
+        login_pwd,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="pinyin != null" >
+        pinyin,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createrName != null" >
+        creater_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updaterId != null" >
+        updater_id,
+      </if>
+      <if test="updaterName != null" >
+        updater_name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="createrOrganization != null" >
+        creater_organization,
+      </if>
+      <if test="updaterOrganization != null" >
+        updater_organization,
+      </if>
+      <if test="positionLevel != null" >
+        position_level,
+      </if>
+      <if test="avator != null" >
+        avator,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="seatNumber != null" >
+        seat_number,
+      </if>
+      <if test="attNumber != null" >
+        att_number,
+      </if>
+      <if test="vipNumber != null" >
+        vip_number,
+      </if>
+      <if test="isPattern != null" >
+        is_pattern,
+      </if>
+      <if test="customerNumber != null" >
+        customer_number,
+      </if>
+      <if test="workArea != null" >
+        work_area,
+      </if>
+      <if test="expressPwd != null" >
+        express_pwd,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="integralLevel != null" >
+        integral_level,
+      </if>
+      <if test="restscore != null" >
+        rest_score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="locked != null" >
+        #{locked,jdbcType=TINYINT},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null" >
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrName != null" >
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null" >
+        #{updaterId,jdbcType=BIGINT},
+      </if>
+      <if test="updaterName != null" >
+        #{updaterName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="createrOrganization != null" >
+        #{createrOrganization,jdbcType=VARCHAR},
+      </if>
+      <if test="updaterOrganization != null" >
+        #{updaterOrganization,jdbcType=VARCHAR},
+      </if>
+      <if test="positionLevel != null" >
+        #{positionLevel,jdbcType=BIGINT},
+      </if>
+      <if test="avator != null" >
+        #{avator,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="seatNumber != null" >
+        #{seatNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="attNumber != null" >
+        #{attNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="vipNumber != null" >
+        #{vipNumber,jdbcType=BIGINT},
+      </if>
+      <if test="isPattern != null" >
+        #{isPattern,jdbcType=BIGINT},
+      </if>
+      <if test="customerNumber != null" >
+        #{customerNumber,jdbcType=BIGINT},
+      </if>
+      <if test="workArea != null" >
+        #{workArea,jdbcType=BIGINT},
+      </if>
+      <if test="expressPwd != null" >
+        #{expressPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="integralLevel != null" >
+        #{integralLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="restscore != null" >
+        #{restscore,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sjg.sys.entity.User" >
+    update sys_user
+    <set >
+      <if test="locked != null or locked==0" >
+        locked = #{locked,jdbcType=TINYINT},
+      </if>
+      <if test="loginName != null" >
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        login_pwd = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null" >
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrName != null" >
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null" >
+        updater_id = #{updaterId,jdbcType=BIGINT},
+      </if>
+      <if test="updaterName != null" >
+        updater_name = #{updaterName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="createrOrganization != null" >
+        creater_organization = #{createrOrganization,jdbcType=VARCHAR},
+      </if>
+      <if test="updaterOrganization != null" >
+        updater_organization = #{updaterOrganization,jdbcType=VARCHAR},
+      </if>
+      <if test="positionLevel != null" >
+        position_level = #{positionLevel,jdbcType=BIGINT},
+      </if>
+      <if test="avator != null" >
+        avator = #{avator,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="seatNumber != null" >
+        seat_number = #{seatNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="attNumber != null" >
+        att_number = #{attNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="vipNumber != null" >
+        vip_number = #{vipNumber,jdbcType=BIGINT},
+      </if>
+      <if test="isPattern != null" >
+        is_pattern = #{isPattern,jdbcType=BIGINT},
+      </if>
+      <if test="customerNumber != null" >
+        customer_number = #{customerNumber,jdbcType=BIGINT},
+      </if>
+      <if test="workArea != null" >
+        work_area = #{workArea,jdbcType=BIGINT},
+      </if>
+      <if test="expressPwd != null" >
+        express_pwd = #{expressPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="integralLevel != null" >
+        integral_level = #{integralLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="restscore != null" >
+        rest_score = #{restscore,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sjg.sys.entity.User" >
+    update sys_user
+    set locked = #{locked,jdbcType=TINYINT},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      login_pwd = #{loginPwd,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      org_id = #{orgId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{updaterId,jdbcType=BIGINT},
+      updater_name = #{updaterName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      creater_organization = #{createrOrganization,jdbcType=VARCHAR},
+      updater_organization = #{updaterOrganization,jdbcType=VARCHAR},
+      position_level = #{positionLevel,jdbcType=BIGINT},
+      avator = #{avator,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      seat_number = #{seatNumber,jdbcType=VARCHAR},
+      att_number = #{attNumber,jdbcType=VARCHAR},
+      vip_number = #{vipNumber,jdbcType=BIGINT},
+      is_pattern = #{isPattern,jdbcType=BIGINT},
+      customer_number = #{customerNumber,jdbcType=BIGINT},
+      work_area = #{workArea,jdbcType=BIGINT},
+      express_pwd = #{expressPwd,jdbcType=VARCHAR},
+      integral = #{integral,jdbcType=INTEGER},
+      integral_level = #{integralLevel,jdbcType=VARCHAR},
+      rest_score = #{restscore,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryUserByLoginName" resultMap="BaseResultMap">
+  select * from sys_user where 1=1
+  <if test="loginName!=null and loginName!=''">
+  	and login_name=#{loginName}
+  </if>
+  <if test="(locked!=null and locked!='') or locked==0">
+  	and locked=#{locked}
+  </if>
+  </select>
+  <!-- 查询后台分页的所有用户
+  	条件：offset:起始行标
+  		pageSize:页大小
+  		user:用户信息查询条件
+  		roleId:角色条件
+   -->
+  <select id="queryUserList" resultMap="BaseResultMap" parameterType="map">
+ 	 select *  from sys_user where 1 = 1  
+  	 <if test="user.name != null and user.name != '' " >
+       and name like concat('%',#{user.name,jdbcType=VARCHAR},'%') 
+     </if>
+     <if test="user.loginName != null and user.loginName != '' " >
+       and login_name like concat('%',#{user.loginName,jdbcType=VARCHAR},'%')
+     </if>
+     <if test="roleId !=null and roleId != '' ">
+     	and id in ( select user_id from sys_user_role where role_id = #{roleId} )
+     </if>
+      limit ${offSet},${pageSize}
+  </select>
+  
+   <!-- 查询总记录数 -->
+   <select id="queryUserListCount" resultType="java.lang.Long" parameterType="map">
+  	select count(distinct id) from sys_user where 1 = 1  
+  	<if test="user.name != null and user.name != '' " >
+       and name like concat('%',#{user.name,jdbcType=VARCHAR},'%') 
+     </if>
+     <if test="user.loginName != null and user.loginName != '' " >
+       and login_name like concat('%',#{user.loginName,jdbcType=VARCHAR},'%')
+     </if>
+     <if test="roleId !=null and roleId != '' ">
+     	and id in ( select user_id from sys_user_role where role_id = #{roleId} )
+     </if>
+  </select>
+  
+  <!-- 根据机构查询用户 -->
+  <select id="queryUserListByOrgId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select * from sys_user where 1=1 
+  	<if test="user.orgId != null">
+  		and org_id = #{user.orgId,jdbcType=BIGINT}
+  	</if>
+  	ORDER BY create_time DESC
+	<if test="pageSize != null and  offset != null">
+		limit #{offset},#{pageSize}
+	</if>  
+  </select>
+  
+  <!-- 根据机构查询用户 个数-->
+  <select id="queryCountByOrg" parameterType="java.util.Map" resultType="java.lang.Long">
+  	select count(*) from sys_user where 1=1 
+  	<if test="user.orgId != null">
+  		and org_id = #{user.orgId,jdbcType=BIGINT}
+  	</if>
+  </select>
+  
+  <select id="queryUserMessageFromAPP" resultMap="BaseResultMap" parameterType="map">
+ 	 select *  from sys_user where 1 = 1  
+  	 <if test="name != null and name != '' " >
+       and name like concat('%',#{name,jdbcType=VARCHAR},'%') 
+     </if>
+     <if test="loginName != null and loginName != '' " >
+       and login_name like concat('%',#{loginName,jdbcType=VARCHAR},'%')
+     </if>
+     <if test="roleId !=null and roleId != '' ">
+     	and id in ( select user_id from sys_user_role where role_id = #{roleId} )
+     </if>
+  </select>
+  
+  <!-- 根据ID查询用户 -->
+  <select id="queryUserById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select * from sys_user where id = #{userid}
+  </select>
+  
+  <!-- APP根据机构查询可操作用户 -->
+  <select id="queryUserListByOrgIdFromAPP" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select * from sys_user where 1=1 
+  	<if test="user.id != null and user.id != ''">
+  		and id != #{user.id,jdbcType=BIGINT}
+  	</if>
+  	<if test="user.name != null and user.name != '' " >
+       and name like concat('%',#{user.name,jdbcType=VARCHAR},'%')
+     </if>
+  	<if test="user.orgId != null and user.orgId != ''">
+  		and org_id = #{user.orgId,jdbcType=BIGINT}
+  	</if>
+  	ORDER BY name 
+	<if test="pageSize != null and  offset != null">
+		limit #{offset},#{pageSize}
+	</if>;
+  </select>
+  
+  <select id="queryUserByRoleId" resultMap="BaseResultMap" parameterType="map">
+ 	 select *  from sys_user where 1 = 1  
+ 	 <if test="user.id != null and user.id != ''">
+  		and id = #{user.id,jdbcType=BIGINT}
+  	 </if>
+     <if test="roleKey !=null and roleKey != '' ">
+     	and id in ( SELECT b.user_id FROM sys_role a LEFT JOIN sys_user_role b ON a.id=b.role_id WHERE a.role_key = #{roleKey} )
+     </if>
+  </select>
+  
+  <!-- 根据ID查询用户 -->
+  <select id="queryUserDetailById" parameterType="java.lang.Long" resultType="java.util.Map">
+  	SELECT a.login_name,a.name,a.org_id,b.name org_name,a.rest_score,b.name,GROUP_CONCAT(c.name) adminname FROM sys_user a 
+	LEFT JOIN sys_organization b ON a.org_id=b.id 
+	LEFT JOIN (SELECT e.name,e.org_id FROM sys_user e 
+					LEFT JOIN sys_user_role f ON e.id=f.user_id
+					LEFT JOIN sys_role g ON g.id=f.role_id WHERE g.role_key='admin') c ON a.org_id=c.org_id 
+	WHERE a.id = #{userid}
+  </select>
+  
+</mapper>

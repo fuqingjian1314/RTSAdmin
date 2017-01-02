@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="UTF-8">
+<title>canvas测试</title>
+<body>
+
+<canvas id="myCanvas" width="200" height="200"></canvas>
+
+<button onclick="open1()">open1</button>
+<button onclick="open2()">open2</button>
+<button onclick="open3()">open3</button>
+<button onclick="open4()">open4</button>
+<button onclick="open5()">open5</button>
+
+<script type="text/javascript">
+
+    function open1(){
+        a=3;
+    }
+    function open2(){
+        b=4;
+    }
+    function open3(){
+        c=8;
+    }
+    function open4(){
+        d=3;
+    }
+    function open5(){
+        e=2;
+    }
+var canvas=document.getElementById('myCanvas');
+var size=200;
+var cns=canvas.getContext('2d');
+var i=0;
+var a=-1;
+var b=-1;
+var c=-1;
+var d=-1;
+    cns.fillStyle='#2897cd';
+    cns.fillRect(0,0,size,100);
+    cns.font="10pt Arial";
+    cns.fillStyle="#ffffff";
+    cns.fillText("期号：20161228001  倒计时 ",0,10);
+
+var e=-1;
+    function draw(i,cns,size){
+        cns.clearRect(0,20,size,80);
+        cns.fillStyle='#2897cd';
+        cns.fillRect(0,20,size,80);
+
+
+
+
+cns.font=size/5+"pt Arial";
+cns.fillStyle="#333333";
+Math.random();
+
+if(a>-1){
+    cns.fillStyle='#CC005D';
+    cns.fillText(a+"",0,40+60);
+    cns.fillStyle="#333333"
+}else{
+    cns.fillText(parseInt(10*Math.random())+"",0,40+60);
+}
+if(b>-1){
+    cns.fillStyle='#CC005D';
+    cns.fillText(b+"",size/5,40+60);
+    cns.fillStyle="#333333"
+}else{
+    cns.fillText(parseInt(10*Math.random())+"",size/5,40+60);
+}
+if(c>-1){
+    cns.fillStyle='#CC005D';
+    cns.fillText(c+"",size/5*2,40+60);
+    cns.fillStyle="#333333"
+}else{
+    cns.fillText(parseInt(10*Math.random())+"",size/5*2,40+60);
+}
+if(d>-1){
+    cns.fillStyle='#CC005D';
+    cns.fillText(d+"",size/5*3,40+60);
+    cns.fillStyle="#333333"
+}else{
+    cns.fillText(parseInt(10*Math.random())+"",size/5*3,40+60);
+}
+if(e>-1){
+    cns.fillStyle='#CC005D';
+    cns.fillText(e+"",size/5*4,40+60);
+    cns.fillStyle="#333333"
+}else{
+    cns.fillText(parseInt(10*Math.random())+"",size/5*4,40+60);
+}
+
+i++;
+if(i==10){
+	i=0;
+}
+setTimeout(function(){draw(i,cns, size)},100);
+}
+draw(i,cns,size);
+    var delaysms=10000;
+    function GetRTime(){
+
+        var t = delaysms;
+//        var d=0;
+//        var h=0;
+        var m=0;
+        var s=0;
+        if(t>=0){
+//            d=Math.floor(t/1000/60/60/24);
+//            h=Math.floor(t/1000/60/60%24);
+            m=Math.floor(t/1000/60%60);
+            s=Math.floor(t/1000%60);
+        }else {
+            open1();
+            open2();
+            open3();
+            open4();
+            open5();
+        }
+        cns.clearRect(170,0,30,20);
+        cns.fillStyle='#2897cd';
+        cns.fillRect(170,0,30,20);
+        cns.fillStyle="#ffffff";
+        cns.font="10pt Arial";
+        cns.fillText(m+":"+s,170,10);
+        delaysms=delaysms-1000;
+
+//        document.getElementById("t_d").innerHTML = d + "天";
+//        document.getElementById("t_h").innerHTML = h + "时";
+//        document.getElementById("t_m").innerHTML = m + "分";
+//        document.getElementById("t_s").innerHTML = s + "秒";
+    }
+    setInterval(GetRTime,1000);
+</script>
+
+</body>
+</html>

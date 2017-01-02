@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjg.sys.dao.LogMapper">
+	<resultMap id="BaseResultMap" type="com.sjg.sys.entity.Log">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="exception_code" jdbcType="VARCHAR" property="exceptionCode" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="exception_detail" jdbcType="VARCHAR" property="exceptionDetail" />
+		<result column="method" jdbcType="VARCHAR" property="method" />
+		<result column="params" jdbcType="VARCHAR" property="params" />
+		<result column="createby" jdbcType="VARCHAR" property="createby" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="request_ip" jdbcType="VARCHAR" property="requestIp" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,description,exception_code,type,exception_detail,method,params,createby,create_date,request_ip
+	</sql>
+	<insert id="insert" parameterType="com.sjg.sys.entity.Log">
+		insert into sys_log (id,
+		description, exception_code,
+		type, exception_detail, method,
+		params,
+		createby, create_date,
+		request_ip)
+		values (#{id,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{exceptionCode,jdbcType=VARCHAR},
+		#{type,jdbcType=VARCHAR}, #{exceptionDetail,jdbcType=VARCHAR},
+		#{method,jdbcType=VARCHAR},
+		#{params,jdbcType=VARCHAR},
+		#{createby,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{requestIp,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.sjg.sys.entity.Log">
+		insert into sys_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="exceptionCode != null">
+				exception_code,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="exceptionDetail != null">
+				exception_detail,
+			</if>
+			<if test="method != null">
+				method,
+			</if>
+			<if test="params != null">
+				params,
+			</if>
+			<if test="createby != null">
+				createby,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="requestIp != null">
+				request_ip,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="exceptionCode != null">
+				#{exceptionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="exceptionDetail != null">
+				#{exceptionDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="method != null">
+				#{method,jdbcType=VARCHAR},
+			</if>
+			<if test="params != null">
+				#{params,jdbcType=VARCHAR},
+			</if>
+			<if test="createby != null">
+				#{createby,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="requestIp != null">
+				#{requestIp,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_log
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<!-- 分类分页查询日志信息 -->
+	<select id="findSystemLogList" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from sys_log where 1=1
+		<if test="lrLoginName != null and lrLoginName != '' ">
+			and createby = #{lrLoginName}
+		</if>
+		<if test="logType != null and logType != '' ">
+			and type = #{logType}
+		</if>
+		<if test="createby != null and createby != '' ">
+			and createby like concat('%',#{createby,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="occurStartTime != null ">
+	    	<![CDATA[
+			    AND date_format(create_date,'%Y-%m-%d') >= date_format(#{occurStartTime},'%Y-%m-%d')
+		    ]]>
+	    </if>
+		<if test="occurEndTime != null ">
+	    	<![CDATA[
+			    AND date_format(create_date,'%Y-%m-%d') <= date_format(#{occurEndTime},'%Y-%m-%d')
+		    ]]>
+	    </if>
+		order by create_date desc
+		limit ${offSet},${pageSize}
+	</select>
+
+	<!-- 根据分类获取日志总条数 -->
+	<select id="findCountByType" resultType="java.lang.Long"
+		parameterType="map">
+		select count(*) from sys_log where 1 = 1
+		<if test="lrLoginName != null and lrLoginName != '' ">
+			and createby = #{lrLoginName}
+		</if>
+		<if test="logType != null and logType != '' ">
+			and type = #{logType}
+		</if>
+		<if test="createby != null and createby != '' ">
+			and createby like concat('%',#{createby,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="occurStartTime != null ">
+	    	<![CDATA[
+			    AND date_format(create_date,'%Y-%m-%d') >= date_format(#{occurStartTime},'%Y-%m-%d')
+		    ]]>
+	    </if>
+		<if test="occurEndTime != null ">
+	    	<![CDATA[
+			    AND date_format(create_date,'%Y-%m-%d') <= date_format(#{occurEndTime},'%Y-%m-%d')
+		    ]]>
+	    </if>
+	</select>
+</mapper>

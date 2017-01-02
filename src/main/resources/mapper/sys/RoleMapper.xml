@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjg.sys.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.sjg.sys.entity.Role" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="role_key" property="roleKey" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="creater_id" property="createrId" jdbcType="BIGINT" />
+    <result column="creater_name" property="createrName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="updater_id" property="updaterId" jdbcType="BIGINT" />
+    <result column="updater_name" property="updaterName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, description, role_key, name, create_time, creater_id, creater_name, update_time, 
+    updater_id, updater_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sjg.sys.entity.Role" >
+    insert into sys_role (id, description, role_key, 
+      name, create_time, creater_id, 
+      creater_name, update_time, updater_id, 
+      updater_name)
+    values (#{id,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}, #{roleKey,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createrId,jdbcType=BIGINT}, 
+      #{createrName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updaterId,jdbcType=BIGINT}, 
+      #{updaterName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sjg.sys.entity.Role" >
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="roleKey != null" >
+        role_key,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createrName != null" >
+        creater_name,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updaterId != null" >
+        updater_id,
+      </if>
+      <if test="updaterName != null" >
+        updater_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrName != null" >
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null" >
+        #{updaterId,jdbcType=BIGINT},
+      </if>
+      <if test="updaterName != null" >
+        #{updaterName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sjg.sys.entity.Role" >
+    update sys_role
+    <set >
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        role_key = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrName != null" >
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null" >
+        updater_id = #{updaterId,jdbcType=BIGINT},
+      </if>
+      <if test="updaterName != null" >
+        updater_name = #{updaterName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sjg.sys.entity.Role" >
+    update sys_role
+    set description = #{description,jdbcType=VARCHAR},
+      role_key = #{roleKey,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{updaterId,jdbcType=BIGINT},
+      updater_name = #{updaterName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findByRoleKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where role_key = #{roleKey}
+  </select>
+  
+   <select id="findAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+  </select>
+
+  
+  <select id="findRolelist" resultMap="BaseResultMap" parameterType="com.sjg.sys.entity.Role">
+   	select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where 1=1 
+      <if test="roleKey != null and roleKey !=''" >
+          and role_key = #{roleKey,jdbcType=VARCHAR} 
+      </if>
+      <if test="name != null and name!=''" >
+          and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+      </if>
+      order by update_time desc
+  </select>
+  
+  <select id="queryByPage" resultMap="BaseResultMap" parameterType="com.sjg.sys.entity.Role">
+   	select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where 1=1 
+      <if test="role.roleKey != null and role.roleKey !=''" >
+          and role_key = #{role.roleKey,jdbcType=VARCHAR} 
+      </if>
+      <if test="role.name != null and role.name!=''" >
+          and name like concat('%',#{role.name,jdbcType=VARCHAR},'%')
+      </if>
+      order by id asc
+  	limit #{beginIndex},#{pageSize}
+  </select>
+  
+  <select id="queryByPageCount" resultType="java.lang.Long" parameterType="com.sjg.sys.entity.Role">
+   	
+   	select count( distinct id) as totalRecord
+    from sys_role
+    where 1=1
+      <if test="roleKey != null and roleKey !=''" >
+          and role_key = #{roleKey,jdbcType=VARCHAR} 
+      </if>
+      <if test="name != null and name!=''" >
+          and name like concat('%',#{name,jdbcType=VARCHAR},'%') 
+      </if>
+  </select>
+  <select id="queryNumByKey" parameterType="java.lang.String" resultType="java.lang.Long">
+	select count(distinct id) from sys_role where role_key = #{roleKey,jdbcType=VARCHAR} 
+  </select>
+  
+  <select id="queryRoleByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  		select a.id as id,a.name,a.role_key from sys_role a inner join sys_user_role b on a.id = b.role_id where b.user_id = #{userId}
+  </select>
+  
+  <select id="queryRolesWithoutUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from sys_role where 1=1 
+  	<if test="userId != null and userId !=''">
+  		and id not in ( select role_id from sys_user_role where user_id = #{userId} )
+  	</if>
+  </select>
+	
+
+	
+</mapper>

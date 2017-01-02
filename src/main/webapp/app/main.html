@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			ul {
+				font-size: 14px;
+				color: #8f8f94;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+			<button class="mui-btn mui-pull-left">Left</button>
+			<h1 class="mui-title">主页</h1>
+			<button id='setting' class=" mui-pull-right mui-btn-link">设置</button>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<p>
+					您好 <span id='account'></span>，您已成功登录。
+				</p>
+			</div>
+			
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>Websocket返回</label>
+					<input disabled="true" id='username' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row">
+					<label>Ajax返回</label>
+					<input disabled="true" id='theRestScore' type="text" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+			</form>
+			
+			<div class="mui-content-padded">
+				<button id='send' onclick="sendWebsocket()" class="mui-btn mui-btn-block mui-btn-primary">发送socket</button>
+				<button id='login' onclick="sendAjax()" class="mui-btn mui-btn-block mui-btn-primary">测试发送Ajax</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/serverPath.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			var websocket;
+			(function($, doc) {
+				$.init();
+				var settings = app.getSettings();
+				var account = doc.getElementById('account');
+				//
+				window.addEventListener('show', function() {
+					var state = app.getState();
+					account.innerText = state.account;
+				}, false);
+				$.plusReady(function() {
+					var settingPage = $.preload({
+						"id": 'setting',
+						"url": 'setting.html'
+					});
+					//设置
+					var settingButton = doc.getElementById('setting');
+					//settingButton.style.display = settings.autoLogin ? 'block' : 'none';
+					settingButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							id: 'setting',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					});
+					//--
+					$.oldBack = mui.back;
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;
+						if (backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+				});
+				
+				//发起Websocket链接
+				//var url = "ws://192.168.1.102:8080/RTSAdmin/websocket.shtml";
+				websocket = new WebSocket(websocketURL);
+				
+				websocket.onopen = function(){
+					//alert("打开连接！");
+				}
+				websocket.onmessage = function(event){
+					alert(event.data);
+					var d1 = document.getElementById("username");
+					d1.value=event.data;
+				}
+				
+			}(mui, document));
+			
+			function sendWebsocket(){
+				websocket.send("我是websocket客户端！");
+			}
+			
+			function sendAjax(){
+				var url2='http://192.168.1.102:8080/RTSAdmin/appClient/appVisit.shtml';
+				mui.post(url2,{
+						/*loginName:loginInfo.account,
+						loginPwd:loginInfo.password*/
+					},function(data){
+						alert(data.result);
+						var d2 = document.getElementById("theRestScore");
+						d2.value=data.result;
+					},'json');
+			}
+		
+		</script>
+	</body>
+
+</html>

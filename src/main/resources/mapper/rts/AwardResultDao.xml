@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjg.rts.dao.AwardResultDao">
+
+<!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.sjg.rts.entity.AwardResult">
+        <result column="full_period_number" property="fullPeriodNumber"/>
+        <result column="award_time" property="awardTime"/>
+        <result column="first" property="first"/>
+        <result column="second" property="second"/>
+        <result column="third" property="third"/>
+        <result column="fourth" property="fourth"/>
+        <result column="fifth" property="fifth"/>
+        <result column="first_dx" property="firstDx"/>
+        <result column="second_dx" property="secondDx"/>
+        <result column="third_dx" property="thirdDx"/>
+        <result column="fourth_dx" property="fourthDx"/>
+        <result column="fif_dx" property="fifDx"/>
+        <result column="first_ds" property="firstDs"/>
+        <result column="second_ds" property="secondDs"/>
+        <result column="third_ds" property="thirdDs"/>
+        <result column="fourth_ds" property="fourthDs"/>
+        <result column="fif_ds" property="fifDs"/>
+        <result column="sum_dx" property="sumDx"/>
+        <result column="sum_ds" property="sumDs"/>
+        <result column="sum_lfh" property="sumLfh"/>
+        <result column="beforesum5" property="beforesum5"/>
+        <result column="middlesum5" property="middlesum5"/>
+        <result column="aftersum5" property="aftersum5"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+<!--auto generated Code-->
+    <sql id="all_column">
+        full_period_number,
+        award_time,
+        first,
+        second,
+        third,
+        fourth,
+        fifth,
+        first_dx,
+        second_dx,
+        third_dx,
+        fourth_dx,
+        fif_dx,
+        first_ds,
+        second_ds,
+        third_ds,
+        fourth_ds,
+        fif_ds,
+        sum_dx,
+        sum_ds,
+        sum_lfh,
+        beforesum5,
+        middlesum5,
+        aftersum5,
+        create_time
+    </sql>
+
+<!--auto generated Code-->
+    <insert id="insert">
+        INSERT INTO rts_awardresult
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="awardResult.fullPeriodNumber != null"> full_period_number, </if>
+            <if test="awardResult.awardTime != null"> award_time, </if>
+            <if test="awardResult.first != null"> first, </if>
+            <if test="awardResult.second != null"> second, </if>
+            <if test="awardResult.third != null"> third, </if>
+            <if test="awardResult.fourth != null"> fourth, </if>
+            <if test="awardResult.fifth != null"> fifth, </if>
+            <if test="awardResult.firstDx != null"> first_dx, </if>
+            <if test="awardResult.secondDx != null"> second_dx, </if>
+            <if test="awardResult.thirdDx != null"> third_dx, </if>
+            <if test="awardResult.fourthDx != null"> fourth_dx, </if>
+            <if test="awardResult.fifDx != null"> fif_dx, </if>
+            <if test="awardResult.firstDs != null"> first_ds, </if>
+            <if test="awardResult.secondDs != null"> second_ds, </if>
+            <if test="awardResult.thirdDs != null"> third_ds, </if>
+            <if test="awardResult.fourthDs != null"> fourth_ds, </if>
+            <if test="awardResult.fifDs != null"> fif_ds, </if>
+            <if test="awardResult.sumDx != null"> sum_dx, </if>
+            <if test="awardResult.sumDs != null"> sum_ds, </if>
+            <if test="awardResult.sumLfh != null"> sum_lfh, </if>
+            <if test="awardResult.beforesum5 != null"> beforesum5, </if>
+            <if test="awardResult.middlesum5 != null"> middlesum5, </if>
+            <if test="awardResult.aftersum5 != null"> aftersum5, </if>
+            <if test="awardResult.createTime != null"> create_time, </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="awardResult.fullPeriodNumber != null"> #{awardResult.fullPeriodNumber}, </if>
+            <if test="awardResult.awardTime != null"> #{awardResult.awardTime}, </if>
+            <if test="awardResult.first != null"> #{awardResult.first}, </if>
+            <if test="awardResult.second != null"> #{awardResult.second}, </if>
+            <if test="awardResult.third != null"> #{awardResult.third}, </if>
+            <if test="awardResult.fourth != null"> #{awardResult.fourth}, </if>
+            <if test="awardResult.fifth != null"> #{awardResult.fifth}, </if>
+            <if test="awardResult.firstDx != null"> #{awardResult.firstDx}, </if>
+            <if test="awardResult.secondDx != null"> #{awardResult.secondDx}, </if>
+            <if test="awardResult.thirdDx != null"> #{awardResult.thirdDx}, </if>
+            <if test="awardResult.fourthDx != null"> #{awardResult.fourthDx}, </if>
+            <if test="awardResult.fifDx != null"> #{awardResult.fifDx}, </if>
+            <if test="awardResult.firstDs != null"> #{awardResult.firstDs}, </if>
+            <if test="awardResult.secondDs != null"> #{awardResult.secondDs}, </if>
+            <if test="awardResult.thirdDs != null"> #{awardResult.thirdDs}, </if>
+            <if test="awardResult.fourthDs != null"> #{awardResult.fourthDs}, </if>
+            <if test="awardResult.fifDs != null"> #{awardResult.fifDs}, </if>
+            <if test="awardResult.sumDx != null"> #{awardResult.sumDx}, </if>
+            <if test="awardResult.sumDs != null"> #{awardResult.sumDs}, </if>
+            <if test="awardResult.sumLfh != null"> #{awardResult.sumLfh}, </if>
+            <if test="awardResult.beforesum5 != null"> #{awardResult.beforesum5}, </if>
+            <if test="awardResult.middlesum5 != null"> #{awardResult.middlesum5}, </if>
+            <if test="awardResult.aftersum5 != null"> #{awardResult.aftersum5}, </if>
+            <if test="awardResult.createTime != null"> #{awardResult.createTime}, </if>
+        </trim>
+    </insert>
+
+<!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO rts_awardresult(
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="awardResults" item="awardResult" index="index" separator=",">
+            (
+            #{awardResult.fullPeriodNumber},
+            #{awardResult.awardTime},
+            #{awardResult.first},
+            #{awardResult.second},
+            #{awardResult.third},
+            #{awardResult.fourth},
+            #{awardResult.fifth},
+            #{awardResult.firstDx},
+            #{awardResult.secondDx},
+            #{awardResult.thirdDx},
+            #{awardResult.fourthDx},
+            #{awardResult.fifDx},
+            #{awardResult.firstDs},
+            #{awardResult.secondDs},
+            #{awardResult.thirdDs},
+            #{awardResult.fourthDs},
+            #{awardResult.fifDs},
+            #{awardResult.sumDx},
+            #{awardResult.sumDs},
+            #{awardResult.sumLfh},
+            #{awardResult.beforesum5},
+            #{awardResult.middlesum5},
+            #{awardResult.aftersum5},
+            #{awardResult.createTime}
+            )
+        </foreach>
+    </insert>
+
+<!--auto generated Code-->
+    <update id="update">
+        UPDATE rts_awardresult
+        <set>
+            <if test="awardResult.fullPeriodNumber != null"> full_period_number = #{awardResult.fullPeriodNumber}, </if>
+            <if test="awardResult.awardTime != null"> award_time=#{awardResult.awardTime}, </if>
+            <if test="awardResult.first != null"> first = #{awardResult.first}, </if>
+            <if test="awardResult.second != null"> second = #{awardResult.second}, </if>
+            <if test="awardResult.third != null"> third = #{awardResult.third}, </if>
+            <if test="awardResult.fourth != null"> fourth = #{awardResult.fourth}, </if>
+            <if test="awardResult.fifth != null"> fifth = #{awardResult.fifth}, </if>
+            <if test="awardResult.firstDx != null"> first_dx = #{awardResult.firstDx}, </if>
+            <if test="awardResult.secondDx != null"> second_dx = #{awardResult.secondDx}, </if>
+            <if test="awardResult.thirdDx != null"> third_dx = #{awardResult.thirdDx}, </if>
+            <if test="awardResult.fourthDx != null"> fourth_dx = #{awardResult.fourthDx}, </if>
+            <if test="awardResult.fifDx != null"> fif_dx = #{awardResult.fifDx}, </if>
+            <if test="awardResult.firstDs != null"> first_ds = #{awardResult.firstDs}, </if>
+            <if test="awardResult.secondDs != null"> second_ds = #{awardResult.secondDs}, </if>
+            <if test="awardResult.thirdDs != null"> third_ds = #{awardResult.thirdDs}, </if>
+            <if test="awardResult.fourthDs != null"> fourth_ds = #{awardResult.fourthDs}, </if>
+            <if test="awardResult.fifDs != null"> fif_ds = #{awardResult.fifDs}, </if>
+            <if test="awardResult.sumDx != null"> sum_dx = #{awardResult.sumDx}, </if>
+            <if test="awardResult.sumDs != null"> sum_ds = #{awardResult.sumDs}, </if>
+            <if test="awardResult.sumLfh != null"> sum_lfh = #{awardResult.sumLfh}, </if>
+            <if test="awardResult.beforesum5 != null"> beforesum5 = #{awardResult.beforesum5}, </if>
+            <if test="awardResult.middlesum5 != null"> middlesum5 = #{awardResult.middlesum5}, </if>
+            <if test="awardResult.aftersum5 != null"> aftersum5 = #{awardResult.aftersum5}, </if>
+            <if test="awardResult.createTime != null"> create_time=#{awardResult.createTime} </if>
+        </set>
+         WHERE id = #{awardResult.id}
+    </update>
+
+<!--auto generated Code-->
+    <select id="select" resultMap="AllColumnMap">
+        SELECT <include refid="all_column"/>
+        FROM rts_awardresult
+        <where>
+            <if test="awardResult.fullPeriodNumber != null"> AND full_period_number = #{awardResult.fullPeriodNumber} </if>
+            <if test="awardResult.awardTime != null">AND award_time=#{awardResult.awardTime}, </if>
+            <if test="awardResult.first != null"> AND first = #{awardResult.first} </if>
+            <if test="awardResult.second != null"> AND second = #{awardResult.second} </if>
+            <if test="awardResult.third != null"> AND third = #{awardResult.third} </if>
+            <if test="awardResult.fourth != null"> AND fourth = #{awardResult.fourth} </if>
+            <if test="awardResult.fifth != null"> AND fifth = #{awardResult.fifth} </if>
+            <if test="awardResult.firstDx != null"> AND first_dx = #{awardResult.firstDx} </if>
+            <if test="awardResult.secondDx != null"> AND second_dx = #{awardResult.secondDx} </if>
+            <if test="awardResult.thirdDx != null"> AND third_dx = #{awardResult.thirdDx} </if>
+            <if test="awardResult.fourthDx != null"> AND fourth_dx = #{awardResult.fourthDx} </if>
+            <if test="awardResult.fifDx != null"> AND fif_dx = #{awardResult.fifDx} </if>
+            <if test="awardResult.firstDs != null"> AND first_ds = #{awardResult.firstDs} </if>
+            <if test="awardResult.secondDs != null"> AND second_ds = #{awardResult.secondDs} </if>
+            <if test="awardResult.thirdDs != null"> AND third_ds = #{awardResult.thirdDs} </if>
+            <if test="awardResult.fourthDs != null"> AND fourth_ds = #{awardResult.fourthDs} </if>
+            <if test="awardResult.fifDs != null"> AND fif_ds = #{awardResult.fifDs} </if>
+            <if test="awardResult.sumDx != null"> AND sum_dx = #{awardResult.sumDx} </if>
+            <if test="awardResult.sumDs != null"> AND sum_ds = #{awardResult.sumDs} </if>
+            <if test="awardResult.sumLfh != null"> AND sum_lfh = #{awardResult.sumLfh} </if>
+            <if test="awardResult.beforesum5 != null"> AND beforesum5 = #{awardResult.beforesum5} </if>
+            <if test="awardResult.middlesum5 != null"> AND middlesum5 = #{awardResult.middlesum5} </if>
+            <if test="awardResult.aftersum5 != null"> AND aftersum5 = #{awardResult.aftersum5} </if>
+            <if test="awardResult.createTime != null">ANd create_time=#{awardResult.createTime} </if>
+        </where>
+    </select>
+
+<!--auto generated Code-->
+    <delete id="delete">
+        DELETE FROM rts_awardresult where id = #{awardResult.id}
+    </delete>
+</mapper>

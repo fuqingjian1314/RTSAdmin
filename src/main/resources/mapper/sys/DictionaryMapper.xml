@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjg.sys.dao.DictionaryMapper" >
+  <resultMap id="BaseResultMap" type="com.sjg.sys.entity.Dictionary" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="BIGINT" />
+    <result column="is_hide" property="isHide" jdbcType="BIGINT" />
+    <result column="img_src" property="imgSrc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, description, pid, value, sort,type, is_hide, img_src
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_dictionary
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_dictionary
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sjg.sys.entity.Dictionary" useGeneratedKeys="true" keyProperty="id" >
+    insert into sys_dictionary (id, code, description, 
+      pid, value, sort,type, is_hide, 
+      img_src)
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{pid,jdbcType=BIGINT}, #{value,jdbcType=VARCHAR}, #{sort,jdbcType=BIGINT}, #{type,jdbcType=BIGINT}, #{isHide,jdbcType=BIGINT}, 
+      #{imgSrc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sjg.sys.entity.Dictionary" useGeneratedKeys="true" keyProperty="id" >
+    insert into sys_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="type != null" >
+        type
+      </if>
+      <if test="isHide != null" >
+        is_hide,
+      </if>
+      <if test="imgSrc != null" >
+        img_src,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIGINT},
+      </if>
+      <if test="isHide != null" >
+        #{isHide,jdbcType=BIGINT},
+      </if>
+      <if test="imgSrc != null" >
+        #{imgSrc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sjg.sys.entity.Dictionary" >
+    update sys_dictionary
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=BIGINT},
+      </if>
+       <if test="type != null" >
+        type = #{type,jdbcType=BIGINT},
+      </if>
+      <if test="isHide != null" >
+        is_hide = #{isHide,jdbcType=BIGINT},
+      </if>
+      <if test="imgSrc != null" >
+        img_src = #{imgSrc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sjg.sys.entity.Dictionary" >
+    update sys_dictionary
+    set code = #{code,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=BIGINT},
+      value = #{value,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=BIGINT},
+      type = #{type,jdbcType=BIGINT},
+      is_hide = #{isHide,jdbcType=BIGINT},
+      img_src = #{imgSrc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findByMulCond" resultMap="BaseResultMap" parameterType="java.util.Map" >
+     SELECT * FROM sys_dictionary d1 WHERE d1.is_hide=1 
+     <if test="id != null" >
+	     AND d1.id=#{id,jdbcType=BIGINT}
+      </if>
+      <if test="pid != null" >
+	     AND d1.pid=#{pid,jdbcType=BIGINT}
+      </if>
+       <if test="type != null" >
+	     AND d1.type=#{type,jdbcType=BIGINT}
+      </if>
+      <if test="code != null and code != ''" >
+        <![CDATA[
+			    AND d1.code LIKE CONCAT('%',#{code},'%' )
+			]]>
+      </if>
+      <if test="value != null and value != ''" >
+	      AND d1.value LIKE CONCAT('%',#{value},'%' )
+      </if>
+      
+  </select>
+  
+<resultMap id="BaseResultMapVo" type="com.sjg.sys.entity.vo.DictionaryVo" >
+   <id column="id" property="id" jdbcType="BIGINT" />
+   <result column="code" property="code" jdbcType="VARCHAR" />
+   <result column="description" property="description" jdbcType="VARCHAR" />
+   <result column="pid" property="pid" jdbcType="BIGINT" />
+   <result column="value" property="value" jdbcType="VARCHAR" />
+   <result column="sort" property="sort" jdbcType="BIGINT" />
+   <result column="is_hide" property="isHide" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="BIGINT" />
+   <result column="img_src" property="imgSrc" jdbcType="VARCHAR" />
+   <collection column="id" jdbcType="BIGINT" property="childrenList" ofType="com.sjg.sys.entity.vo.DictionaryVo" select="selectchildrenList"/>
+</resultMap>
+  
+<select id="findByMulCondRelation" resultMap="BaseResultMapVo" parameterType="java.util.Map" >
+     SELECT * FROM sys_dictionary d1 WHERE d1.is_hide!=0
+     <if test="id != null" >
+	     AND d1.id=#{id,jdbcType=BIGINT}
+      </if>
+      <if test="pid != null" >
+	     AND d1.pid=#{pid,jdbcType=BIGINT}
+      </if>
+      <if test="type != null" >
+	     AND d1.type=#{type,jdbcType=BIGINT}
+      </if>
+      <if test="code != null and code != ''" >
+        <![CDATA[
+			    AND d1.code LIKE CONCAT('%',#{code},'%' )
+			]]>
+      </if>
+      <if test="value != null and value != ''" >
+	      AND d1.value LIKE CONCAT('%',#{value},'%' )
+      </if>
+</select>
+  
+<select id="selectchildrenList" resultMap="BaseResultMapVo" parameterType="java.lang.Long" >
+     SELECT * FROM sys_dictionary d1 WHERE d1.is_hide!=0 AND d1.pid=#{id,jdbcType=BIGINT}
+</select>
+  
+  <delete id="deleteList" parameterType="java.util.List" >
+    UPDATE  sys_dictionary SET is_hide=0 WHERE id in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+  		#{item.id}
+ 	</foreach>  
+  </delete>
+
+  <select id="findByPCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    	select <include refid="Base_Column_List" />  FROM sys_dictionary d  WHERE d.pid=(SELECT  d1.id FROM sys_dictionary d1  WHERE d1.code=#{code})
+  </select>
+  <select id="findByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    	select <include refid="Base_Column_List" />  FROM sys_dictionary d  WHERE d.code=#{code}
+  </select>
+  
+  <select id="checkCode"  resultMap="BaseResultMap" >
+  	select <include refid="Base_Column_List" />  FROM sys_dictionary d  WHERE d.code=#{code}
+  	<if test="id!=null">
+  		and d.id!=#{id}
+  	</if>
+  </select>
+  <select id="checkValue"  resultMap="BaseResultMap" >
+  	select <include refid="Base_Column_List" />  FROM sys_dictionary d  WHERE d.value=#{value}
+  	<if test="id!=null">
+  		and d.id!=#{id}
+  	</if>
+  </select>
+  <select id="findRecommendByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    	select <include refid="Base_Column_List" />  FROM sys_dictionary d  WHERE d.is_hide=2
+  </select>
+  
+</mapper>

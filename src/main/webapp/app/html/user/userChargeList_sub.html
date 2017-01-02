@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>用户充值记录列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul id="chargeList" class="mui-table-view mui-table-view-chevron">
+					
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src='../../js/jquery-1.10.2.min.js'></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			
+			var users;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			var count = 0;
+			var pageSize = 20;//每次上拉增加显示的条数
+			function pullupRefresh() {
+				setTimeout(function() {
+					if(users){
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > users.length)); //参数为true代表没有更多数据了。
+						var table = document.body.querySelector('.mui-table-view');
+						var cells = document.body.querySelectorAll('.mui-table-view-cell');
+						for (var i = cells.length, len = i + pageSize; i < len; i++) {
+							count = i;
+							if(++count > users.length){
+								break;
+							}
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell';
+							li.innerHTML = (i+1)+"："+users[i].create_time+"<span class='mui-badge mui-badge-purple'>"+users[i].charge_score+"</span>";
+							table.appendChild(li);
+						}
+					}
+				}, 0);
+			}
+			
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					if(users){
+						$('#chargeList').empty();
+						var table = document.body.querySelector('.mui-table-view');
+						var cells = document.body.querySelectorAll('.mui-table-view-cell');
+						for (var i = cells.length, len = i + pageSize; i < len; i++) {
+							count = i;
+							if(++count > users.length){
+								break;
+							}
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell';
+							li.innerHTML = (i+1)+"："+users[i].create_time+"<span class='mui-badge mui-badge-purple'>"+users[i].charge_score+"</span>";
+							table.appendChild(li);
+						}
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+						//调用上拉加载的重置函数
+						mui('#pullrefresh').pullRefresh().refresh(true);
+					}
+				}, 0);
+			}
+			
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						var chargeUserInfo = JSON.parse(localStorage.getItem('$chargeUserInfo') || '[]');
+						mui.post(localStorage.getItem("serverPath")+"/appClient/getUserChargeList.shtml",{
+							userId: chargeUserInfo.id
+						},function(data){
+							users = data;
+							mui('#pullrefresh').pullRefresh().pullupLoading();
+						},'json');
+						/*
+						$.ajax({
+							type:"post",
+							url:serverPath+"/appClient/getUserChargeList.shtml",
+							async:true,
+							data: {
+								userId: chargeUserInfo.id
+							},
+							success:function(data){
+								users = data;
+								mui('#pullrefresh').pullRefresh().pullupLoading();
+							}
+						});
+						*/
+					}, 0);
+
+				});
+			} else {
+				mui.ready(function() {
+					var chargeUserInfo = JSON.parse(localStorage.getItem('$chargeUserInfo') || '[]');
+					mui.post(localStorage.getItem("serverPath")+"/appClient/getUserChargeList.shtml",{
+						userId: chargeUserInfo.id
+					},function(data){
+						users = data;
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					},'json');
+					
+					/*$.ajax({
+						type:"post",
+						url:serverPath+"/appClient/getUserChargeList.shtml",
+						async:true,
+						data: {
+							userId: chargeUserInfo.id
+						},
+						success:function(data){
+							users = data;
+							mui('#pullrefresh').pullRefresh().pullupLoading();
+						}
+					});*/
+				});
+			}
+		</script>
+	</body>
+
+</html>

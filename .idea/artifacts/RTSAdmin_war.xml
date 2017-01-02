@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="RTSAdmin:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="RTSAdmin.war">
+      <element id="artifact" artifact-name="RTSAdmin:war exploded" />
+    </root>
+  </artifact>
+</component>

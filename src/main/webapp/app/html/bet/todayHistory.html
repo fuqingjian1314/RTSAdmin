@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view">
+					
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					}
+ ,
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+            var codeNames={"0":"0","1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"7","8":"8","9":"9","big":"大","small":"小","single":"单","double":"双","sumbig":"总和大","sumsmall":"总和小","sumsingle":"总和单","sumdouble":"总和双","dragon":"龙","tiger":"虎","peace":"和","befleopard":"前豹子","befstraight":"前顺子","befpair":"前对子","befhalfstraight":"前半顺","befmix6":"前杂六","midleopard":"中豹子","minstraight":"中顺子","minpair":"中对子","minhalfstraight":"中半顺","minmix6":"中杂六","aftleopard":"后豹子","aftstraight":"后顺子","aftpair":"后对子","afthalfstraight":"后半顺","aftmix6":"后杂六"};
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+//                var url="http://192.168.1.6:8080/RTSAdmin/betorder/queryBetOrders.shtml";
+//                mui.post(url,{offset:offset,pagesize:20},function (datas) {
+//                    var table = document.body.querySelector('.mui-table-view');
+//                    var cells = document.body.querySelectorAll('.mui-table-view-cell');
+//                    for (var i = 0; i < datas.length; i++) {
+//                        var row=datas[i];
+//                        var li = document.createElement('li');
+//                        li.className = 'mui-table-view-cell';
+//                        li.innerHTML = '<a>'+offset+' '+row.ballnumber+'	'+row.bettype+'	'+row.cost+'	'+row.rate+'	'+row.bunkoresult+'</a>';
+//                        table.insertBefore(li, table.firstChild);
+//                    }
+//                    offset+=datas.length;
+//                    mui('#pullrefresh').pullRefresh().endPulldownToRefresh(true);
+//                },"json")
+//				setTimeout(function() {
+//					var table = document.body.querySelector('.mui-table-view');
+//					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+//					for (var i = cells.length, len = i + 3; i < len; i++) {
+//						var li = document.createElement('li');
+//						li.className = 'mui-table-view-cell';
+//						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+//						//下拉刷新，新纪录插到最前面；
+//						table.insertBefore(li, table.firstChild);
+//					}
+//					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+//				}, 1500);
+                var url=localStorage.getItem("serverPath")+"/betorder/queryBetOrders.shtml";
+                mui.post(url,{offset:0,pagesize:20},function (datas) {
+                    var table = document.body.querySelector('.mui-table-view');
+                    var cells = document.body.querySelectorAll('.mui-table-view-cell');
+                    table.innerHTML="";
+                    for (var i = 0; i < datas.length; i++) {
+                        var row=datas[i];
+                        switch(row.ballnumber)
+                        {
+                            case 1:
+                                row.ballname="一球";
+                                break;
+                            case 2:
+                                row.ballname="二球";
+                                break;
+                            case 3:
+                                row.ballname="三球";
+                                break;
+                            case 4:
+                                row.ballname="四球";
+                                break;
+                            case 5:
+                                row.ballname="五球";
+                                break;
+                            default:
+                                row.ballname="综合";
+                        }
+                        if(row.bunkoresult>0){
+                            row.result="赢"+row.bunkoresult;
+                        }else if(row.bunkoresult<0){
+                            row.result="输"+Math.abs(row.bunkoresult);
+                        }else{
+                            row.result="未开奖";
+                        }
+                        var li = document.createElement('li');
+                        li.className = 'mui-table-view-cell';
+                        var time=new Date(row.bettime);
+                        var timestr=time.getHours()+":"+time.getMinutes();
+                        var period=row.fullPeriodNumber+"";
+                        var periodstr=period.substring(period.length-3,period.length);
+                        li.innerHTML = '<a>'+row.ballname+'	'+codeNames[row.bettype]+'	下注'+row.cost+'	'+row.rate+'倍	'+row.result+' '+timestr+' '+periodstr+'</a>';
+
+                        table.appendChild(li);
+                    }
+                    offset+=datas.length;
+                    mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+                },"json")
+			}
+
+
+            var offset=0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+                var url=localStorage.getItem("serverPath")+"/betorder/queryBetOrders.shtml";
+                mui.post(url,{offset:offset,pagesize:20},function (datas) {
+                    var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					for (var i = 0; i < datas.length; i++) {
+					    var row=datas[i];
+                        switch(row.ballnumber)
+                        {
+                            case 1:
+                                row.ballname="一球";
+                                break;
+                            case 2:
+                                row.ballname="二球";
+                                break;
+                            case 3:
+                                row.ballname="三球";
+                                break;
+                            case 4:
+                                row.ballname="四球";
+                                break;
+                            case 5:
+                                row.ballname="五球";
+                                break;
+                            default:
+                                row.ballname="综合";
+                        }
+                        if(row.bunkoresult>0){
+                            row.result="赢"+row.bunkoresult;
+						}else if(row.bunkoresult<0){
+                            row.result="输"+Math.abs(row.bunkoresult);
+						}else{
+						    row.result="保本";
+						}
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+                        var time=new Date(row.bettime);
+                        var timestr=time.getHours()+":"+time.getMinutes();
+                        var period=row.fullPeriodNumber+"";
+                        var periodstr=period.substring(period.length-3,period.length);
+						li.innerHTML = '<a>'+row.ballname+'	'+codeNames[row.bettype]+'	下注'+row.cost+'	'+row.rate+'倍	'+row.result+' '+timestr+' '+periodstr+'</a>';
+						table.appendChild(li);
+					}
+					offset+=datas.length;
+                    mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+                },"json")
+//
+//				setTimeout(function() {
+//					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+//					var table = document.body.querySelector('.mui-table-view');
+//					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+//					for (var i = cells.length, len = i + 20; i < len; i++) {
+//						var li = document.createElement('li');
+//						li.className = 'mui-table-view-cell';
+//						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+//						table.appendChild(li);
+//					}
+//				}, 1500);
+			}
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+		</script>
+		
+	</body>
+
+</html>

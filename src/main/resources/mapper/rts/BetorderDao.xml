@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjg.rts.dao.BetorderDao">
+
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.sjg.rts.entity.Betorder">
+        <result column="order_id" property="orderId"/>
+        <result column="full_period_number" property="fullPeriodNumber"/>
+        <result column="ballnumber" property="ballnumber"/>
+        <result column="bettype" property="bettype"/>
+        <result column="cost" property="cost"/>
+        <result column="rate" property="rate"/>
+        <result column="bunkoresult" property="bunkoresult"/>
+        <result column="bettime" property="bettime"/>
+        <result column="betweek" property="betweek"/>
+        <result column="cjyhid" property="cjyhid"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="ResultMap" type="com.sjg.rts.entity.memberResult">
+        <result column="result" property="result"/>
+        <result column="cjyhid" property="memberId"/>
+    </resultMap>
+    <!--auto generated Code-->
+    <sql id="all_column">
+        order_id,
+        full_period_number,
+        ballnumber,
+        bettype,
+        cost,
+        rate,
+        bunkoresult,
+        bettime,
+        betweek,
+        cjyhid,
+        create_time
+    </sql>
+
+    <!--auto generated Code-->
+    <insert id="insert">
+        INSERT INTO rts_betorder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+--             <if test="pojo.orderId != null"> order_id, </if>
+            <if test="pojo.fullPeriodNumber != null"> full_period_number, </if>
+            <if test="pojo.ballnumber != null"> ballnumber, </if>
+            <if test="pojo.bettype != null"> bettype, </if>
+            <if test="pojo.cost != null"> cost, </if>
+            <if test="pojo.rate != null"> rate, </if>
+            <if test="pojo.bunkoresult != null"> bunkoresult, </if>
+            <if test="pojo.bettime != null"> bettime, </if>
+            <if test="pojo.betweek != null"> betweek, </if>
+            <if test="pojo.cjyhid != null"> cjyhid, </if>
+            <if test="pojo.createTime != null"> create_time, </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+--             <if test="pojo.orderId != null"> #{pojo.orderId}, </if>
+            <if test="pojo.fullPeriodNumber != null"> #{pojo.fullPeriodNumber}, </if>
+            <if test="pojo.ballnumber != null"> #{pojo.ballnumber}, </if>
+            <if test="pojo.bettype != null"> #{pojo.bettype}, </if>
+            <if test="pojo.cost != null"> #{pojo.cost}, </if>
+            <if test="pojo.rate != null"> #{pojo.rate}, </if>
+            <if test="pojo.bunkoresult != null"> #{pojo.bunkoresult}, </if>
+            <if test="pojo.bettime != null"> #{pojo.bettime}, </if>
+            <if test="pojo.betweek != null"> #{pojo.betweek}, </if>
+            <if test="pojo.cjyhid != null"> #{pojo.cjyhid}, </if>
+            <if test="pojo.createTime != null"> #{pojo.createTime}, </if>
+        </trim>
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO rts_betorder(
+        full_period_number,
+        ballnumber,
+        bettype,
+        cost,
+        rate,
+        bunkoresult,
+        bettime,
+        betweek,
+        cjyhid,
+        create_time
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.fullPeriodNumber},
+            #{pojo.ballnumber},
+            #{pojo.bettype},
+            #{pojo.cost},
+            #{pojo.rate},
+            #{pojo.bunkoresult},
+            #{pojo.bettime},
+            #{pojo.betweek},
+            #{pojo.cjyhid},
+            #{pojo.createTime}
+            )
+        </foreach>
+    </insert>
+
+    <!--auto generated Code-->
+    <update id="update">
+        UPDATE rts_betorder
+        <set>
+--             <if test="pojo.orderId != null"> order_id = #{pojo.orderId}, </if>
+            <if test="pojo.fullPeriodNumber != null"> full_period_number = #{pojo.fullPeriodNumber}, </if>
+            <if test="pojo.ballnumber != null"> ballnumber = #{pojo.ballnumber}, </if>
+            <if test="pojo.bettype != null"> bettype = #{pojo.bettype}, </if>
+            <if test="pojo.cost != null"> cost = #{pojo.cost}, </if>
+            <if test="pojo.rate != null"> rate = #{pojo.rate}, </if>
+            <if test="pojo.bunkoresult != null"> bunkoresult = #{pojo.bunkoresult}, </if>
+            <if test="pojo.bettime != null"> bettime = #{pojo.bettime}, </if>
+            <if test="pojo.betweek != null"> betweek = #{pojo.betweek}, </if>
+            <if test="pojo.cjyhid != null"> cjyhid = #{pojo.cjyhid} </if>
+            <if test="pojo.createTime != null"> create_time = #{pojo.createTime} </if>
+        </set>
+        WHERE order_id = #{pojo.order_id}
+    </update>
+
+    <!--auto generated Code-->
+    <select id="select" resultMap="AllColumnMap">
+        SELECT <include refid="all_column"/>
+        FROM rts_betorder
+        <where>
+            <if test="pojo.orderId != null"> AND order_id = #{pojo.orderId} </if>
+            <if test="pojo.fullPeriodNumber != null"> AND full_period_number = #{pojo.fullPeriodNumber} </if>
+            <if test="pojo.ballnumber != null"> AND ballnumber = #{pojo.ballnumber} </if>
+            <if test="pojo.bettype != null"> AND bettype = #{pojo.bettype} </if>
+            <if test="pojo.cost != null"> AND cost = #{pojo.cost} </if>
+            <if test="pojo.rate != null"> AND rate = #{pojo.rate} </if>
+            <if test="pojo.bunkoresult != null"> AND bunkoresult = #{pojo.bunkoresult} </if>
+            <if test="pojo.bettime != null"> AND bettime = #{pojo.bettime} </if>
+            <if test="pojo.betweek != null"> AND betweek = #{pojo.betweek} </if>
+            <if test="pojo.cjyhid != null"> AND cjyhid = #{pojo.cjyhid} </if>
+            <if test="pojo.createTime != null"> AND create_time = #{pojo.createTime} </if>
+        </where>
+    </select>
+
+    <select id="selectPageTody" resultMap="AllColumnMap">
+        SELECT <include refid="all_column"/>
+        FROM rts_betorder
+        <where>
+            <if test="pojo.orderId != null"> AND order_id = #{pojo.orderId} </if>
+            <if test="pojo.fullPeriodNumber != null"> AND full_period_number = #{pojo.fullPeriodNumber} </if>
+            <if test="pojo.ballnumber != null"> AND ballnumber = #{pojo.ballnumber} </if>
+            <if test="pojo.bettype != null"> AND bettype = #{pojo.bettype} </if>
+            <if test="pojo.cost != null"> AND cost = #{pojo.cost} </if>
+            <if test="pojo.rate != null"> AND rate = #{pojo.rate} </if>
+            <if test="pojo.bunkoresult != null"> AND bunkoresult = #{pojo.bunkoresult} </if>
+            <if test="pojo.betweek != null"> AND betweek = #{pojo.betweek} </if>
+            <if test="pojo.cjyhid != null"> AND cjyhid = #{pojo.cjyhid} </if>
+            <if test="pojo.createTime != null"> AND create_time = #{pojo.createTime} </if>
+             AND bettime BETWEEN #{startbettime} AND #{endbettime}
+        </where>
+        ORDER BY bettime desc
+        limit ${offSet},${pageSize}
+    </select>
+
+    <!--auto generated Code-->
+    <delete id="delete">
+        DELETE FROM rts_betorder where order_id = #{pojo.id}
+    </delete>
+
+    <select id="callOrderResult" statementType="CALLABLE">
+        <![CDATA[
+		{call RTS_COMPUTRESULT(#{fullPeriodNumber,mode=IN,jdbcType=INTEGER})}
+		]]>
+    </select>
+
+    <select id="selectMemberResult" resultMap="ResultMap">
+        SELECT SUM(cost+bunkoresult) result,cjyhid FROM rts_betorder where full_period_number=#{fullPeriodNumber} GROUP BY cjyhid;
+    </select>
+
+</mapper>
